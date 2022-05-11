@@ -1,13 +1,22 @@
 #include<stdio.h>
+typedef struct
+{
+    char nombre[50];
+    char usuario[50];
+    int edad;
+
+}jugador;
 
 int main()
 {
     int eleccion;
-    char usuario[50];
+    jugador j1;
 
-    printf("Para empezar, elige un nombre de usuario con el que nos referiremos a ti\n");
-    scanf("%50[^\n]",usuario);
-    printf("Bienvenido,encantado de conocerte %s",usuario);
+    printf("Para empezar, me gustaria conocerte jugador. Indica tu nombre y tu edad\n");
+    scanf("%s %i",j1.nombre,&j1.edad);
+    printf("Encantado de conocerte %s, elige ahora tu nombre de usuario para poder iniciar el juego\n",j1.nombre);
+    scanf(" %[^\n]s",j1.usuario);
+    printf("Bienvenido %s... A JUGAR\n",j1.usuario);
 
     do
     {
@@ -18,11 +27,7 @@ int main()
         printf("4-->Juegos relacionados\n");
         printf("Presione la tecla 5 para salir del menu\n");
         scanf("%i",&eleccion);
-
-    }
-    while((eleccion!=1 || eleccion!=2 || eleccion!=3 || eleccion!=4) && eleccion!=5);
-
-    switch(eleccion)
+        switch(eleccion)
     {
         case 1:
         {
@@ -75,7 +80,20 @@ int main()
                  fclose(jueg);
                 break;
             }
+        case 3:
+            {
+
+            }
+        default:
+            {
+                printf("Has seleccionado una opcion no valida\n");
+                break;
+            }
     }
+
+    }
+    while(eleccion!=5);
+
 
     return 0;
 }
