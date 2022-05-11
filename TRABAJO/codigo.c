@@ -15,9 +15,66 @@ int main()
         printf("3-->Inicio del juego\n");
         printf("4-->Juegos relacionados\n");
         scanf("%i",&eleccion);
+
     }
     while(eleccion!=1&&eleccion!=2&&eleccion!=3&&eleccion!=4);
 
+    switch(eleccion)
+    {
+        case 1:
+        {
+            FILE *reg;
+            char reglas[500];
+            int i=0;
+            reg = fopen("Reglas.txt","r");
+
+            while(fscanf(reg,"%c",&reglas[i])!=EOF)
+            {
+                printf("%c",reglas[i]);
+                i++;
+
+            }
+             fclose(reg);
+            break;
+
+        }
+
+        case 2:
+            {
+                FILE *exp;
+                char explicacion[500];
+                int i=0;
+                exp = fopen("Explicacion.txt","r");
+
+                while(fscanf(exp,"%c",&explicacion[i])!=EOF)
+                {
+                    printf("%c",explicacion[i]);
+                    i++;
+
+                }
+                 fclose(exp);
+                break;
+            }
+
+        case 4:
+            {
+                FILE *jueg;
+                char juegos[500];
+                int i=0;
+                jueg = fopen("Juegos relacionados.txt","r");
+
+                while(fscanf(jueg,"%c",&juegos[i])!=EOF)
+                {
+                    printf("%c",juegos[i]);
+                    i++;
+
+                }
+                 fclose(jueg);
+                break;
+            }
+    }
 
 
+
+return 0;
 }
