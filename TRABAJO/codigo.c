@@ -18,11 +18,7 @@ int main()
         printf("4-->Juegos relacionados\n");
         printf("Presione la tecla 5 para salir del menu\n");
         scanf("%i",&eleccion);
-
-    }
-    while((eleccion!=1 || eleccion!=2 || eleccion!=3 || eleccion!=4) && eleccion!=5);
-
-    switch(eleccion)
+        switch(eleccion)
     {
         case 1:
         {
@@ -75,7 +71,20 @@ int main()
                  fclose(jueg);
                 break;
             }
+        case 3:
+            {
+
+            }
+        default:
+            {
+                printf("Has seleccionado una opcion no valida\n");
+                break;
+            }
     }
+
+    }
+    while(eleccion!=5);
+
 
     return 0;
 }
