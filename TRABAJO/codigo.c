@@ -3,7 +3,7 @@
 #include<stdlib.h> //para la funcion system
 
 #define X 58
-#define Y 30
+#define Y 27
 
 typedef struct
 {
@@ -100,7 +100,7 @@ int main()
             {
 
                 int pos_x_jug = 0;
-                int pos_y_jug = 3;
+                int pos_y_jug = 2;
 
                 ///laberinto[vertical][horizontal];
                 int laberinto1[Y][X] = {
@@ -150,11 +150,13 @@ int main()
 
 
                 }
+
                 printf("\n");
             }
 
                 jugador1(laberinto1, pos_x_jug, pos_y_jug); //para poner el jugador en su posicion inicial
-                juego(laberinto1, pos_x_jug, pos_y_jug); //para el juego del laberinto
+                juego(laberinto1, pos_x_jug, pos_y_jug);
+                 //para el juego del laberinto
 
 
                 break;
@@ -214,8 +216,9 @@ void imprime_laberinto(int laberinto1[Y][X]){
         }
         printf("\n");
     }
+    printf("Estupendo, empecemos con el laberinto mas facil para entrar en calor. Tu objetivo...llegar a la meta lo antes posible\n");
 
-    printf("\n\n");
+    printf("\n");
 
 }
 
