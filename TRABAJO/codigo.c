@@ -209,7 +209,7 @@ void imprime_laberinto(int laberinto1[Y][X]){
     system("cls"); //para que borre el mapa anterior de la pantalla e imprima el actualizado
 
     int i,j;
-    printf("Estupendo, empecemos con el laberinto mas facil para entrar en calor. Tu objetivo...llegar a la meta lo antes posible\n");
+    printf("\nEstupendo, empecemos con el laberinto mas facil para entrar en calor. Tu objetivo...llegar a la meta lo antes posible\n\n");
 
     for(i=0; i<Y; i++){
         for(j=0; j<X; j++){
@@ -309,6 +309,5 @@ void entrada(int laberinto1[Y][X], int *pos_x_jug, int *pos_y_jug, int *salida){
 //fucnion para actualizar el laberinto
 void actualiza(int laberinto1[Y][X], int pos_x_jug, int pos_y_jug){
     jugador1(laberinto1, pos_x_jug, pos_y_jug); //hace llamada a la funcion jugador, para actualizar su posicion, es decir, la nueva posicion de 'o'
-    //imprime_laberinto(laberinto1); //no es necesario!!
 }
 
