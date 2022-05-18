@@ -1,4 +1,6 @@
 #include<stdio.h>
+#include<conio.h> //para la funcion getch, para recibir por teclado caracter sin necesitar intro
+#include<stdlib.h> //para la funcion system
 
 #define X 58
 #define Y 30
@@ -32,6 +34,7 @@ int main()
         printf("4-->Juegos relacionados\n");
         printf("Presione la tecla 5 para salir del menu\n");
         scanf("%i",&eleccion);
+
         switch(eleccion)
         {
             case 1:
@@ -88,9 +91,11 @@ int main()
 
             case 3:
             {
+
+                int pos_x_jug = 0;
+                int pos_y_jug = 3;
                 ///laberinto[vertical][horizontal];
                 int laberinto1[Y][X] = {
-//
                         {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,'\0'},
                         {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,'\0'},
                         {1,1,1,1,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,2,2,2,2,2,2,'\0'},
@@ -120,29 +125,29 @@ int main()
                         {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,'\0'},
             };
 
-                    //para imprimir por pantalla el laberinto al inicio
-                    for(i=0; i<Y; i++){
-                        for(j=0; j<X; j++){
-                            if(laberinto1[i][j]==1)
-                            {
-                                laberinto1[i][j]=' ';
-                            }
-                            if(laberinto1[i][j]==2)
-                            {
 
-                                laberinto1[i][j]='*';
+            for(i=0; i<Y; i++){
+                for(j=0; j<X; j++){
+                    if(laberinto1[i][j]==1)
+                    {
+                        laberinto1[i][j]=' ';
+                    }
 
-                            }
+                    if(laberinto1[i][j]==2)
+                    {
+                        laberinto1[i][j]='*';
+                    }
 
-                            printf("%c ",laberinto1[i][j]);
+                printf("%c ",laberinto1[i][j]);
+                printf("\n\n");
 
-                        }
+                }
+            }
 
 
                         printf("\n");
                     }
                     break;
-            }
 
             default:
             {
