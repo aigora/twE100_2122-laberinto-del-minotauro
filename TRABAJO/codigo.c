@@ -139,13 +139,14 @@ int main()
                     }
 
                 printf("%c ",laberinto1[i][j]);
-                printf("\n\n");
+
 
                 }
+                printf("\n");
             }
 
 
-                        printf("\n");
+
                     }
                     break;
 
