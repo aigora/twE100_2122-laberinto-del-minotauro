@@ -209,6 +209,7 @@ void imprime_laberinto(int laberinto1[Y][X]){
     system("cls"); //para que borre el mapa anterior de la pantalla e imprima el actualizado
 
     int i,j;
+    printf("Estupendo, empecemos con el laberinto mas facil para entrar en calor. Tu objetivo...llegar a la meta lo antes posible\n");
 
     for(i=0; i<Y; i++){
         for(j=0; j<X; j++){
@@ -216,7 +217,6 @@ void imprime_laberinto(int laberinto1[Y][X]){
         }
         printf("\n");
     }
-    printf("Estupendo, empecemos con el laberinto mas facil para entrar en calor. Tu objetivo...llegar a la meta lo antes posible\n");
 
     printf("\n");
 

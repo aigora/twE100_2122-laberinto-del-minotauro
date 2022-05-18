@@ -1,2 +1,6 @@
 
-EXPLICACION DEL JUEGO:
+DINAMICA DEL JUEGO:
+Se te propondran varios laberintos para demostrar tu destreza. Estos laberintos;
+siendo cada vez mas complicados,tienen una unica salida que tendras que ir buscando moviendote a traves de el.
+Para moverte por los laberintos tienes que usar las teclas w (para ir hacia arriba), d (para ir hacia la 
+derecha), a (para ir hacia la izquierda), y s (para ir hacia abajo).
