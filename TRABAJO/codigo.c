@@ -13,13 +13,22 @@ typedef struct
 
 }jugador;
 
-void jugador1(int lab[][58],int f,int c,int pos_x_jug, int pos_y_jug);
-void juego(int lab[][58],int f, int c, int pos_x_jug, int pos_y_jug); //int mod_x, int mod_y);
-void juegosinvision(int lab[][58],int f,int c, int pos_x_jug, int pos_y_jug,jugador j1);
-void imprime_laberinto(int lab[][58],int f,int c);
-void imprime_laberintosinvision(int lab[][58],int f,int c,jugador j,int pos_y_jug, int pos_x_jug);
-void entrada(int lab[][58],int f,int c, int *pos_x_jug, int *pos_y_jug, int *salida); // int *mod_x, int *mod_y, int *salida);
-void actualiza(int lab[][58],int f, int c, int pos_x_jug, int pos_y_jug);
+void jugador1(int lab[][X], int pos_x_jug, int pos_y_jug);
+void jugador2(int laberinto1[Y][X], int pos_x_jug2, int pos_y_jug2);
+
+void juego(int lab[][X], int pos_x_jug, int pos_y_jug);
+void juego_multi(int laberinto1[Y][X], int pos_x_jug, int pos_y_jug, int pos_x_jug2, int pos_y_jug2);
+
+void juegosinvision(int lab[][X], int pos_x_jug, int pos_y_jug,jugador j1);
+
+void imprime_laberinto(int lab[][X],int f,int c);
+void imprime_laberintosinvision(int lab[][X],int f,int c,jugador j,int pos_y_jug, int pos_x_jug);
+
+void entrada(int lab[][X], int *pos_x_jug, int *pos_y_jug, int *salida);
+void actualiza(int lab[][X], int pos_x_jug, int pos_y_jug);
+
+void entrada_multi(int laberinto1[Y][X], int *pos_x_jug, int *pos_y_jug, int *salida, int *pos_x_jug2, int *pos_y_jug2, int *pillado);
+void actualiza_multi(int laberinto1[Y][X], int pos_x_jug, int pos_y_jug, int pos_x_jug2, int pos_y_jug2);
 
 
 int main()
@@ -37,11 +46,11 @@ int main()
     do
     {
         printf("\n\nBienvenido al menu del LABERINTO DEL MINOTAURO. Selecciona la opcion que desees:\n");
-        printf("1-->Reglas del juego\n");
-        printf("2-->Explicacion del juego\n");
+        printf("1-->Reglas del juego y explicacion de juego y modos de juego\n");
+        printf("2-->Modo Multijugador\n");
         printf("3-->Inicio del juego\n");
         printf("4-->Juegos relacionados\n");
-        printf("Presione la tecla 5 para salir del menu\n");
+        printf("Presione la tecla 5 para salir del menu\n"); //comprobar que no salga opcion incorrecta
         scanf("%i",&eleccion);
 
         switch(eleccion)
@@ -66,18 +75,71 @@ int main()
 
             case 2:
             {
-                FILE *exp;
-                char explicacion[500];
-                int i=0;
-                exp = fopen("Explicacion.txt","r");
+                int i,j;
+                int pos_x_jug, pos_y_jug, pos_x_jug2, pos_y_jug2;
 
-                while(fscanf(exp,"%c",&explicacion[i])!=EOF)
-                {
-                    printf("%c",explicacion[i]);
-                    i++;
+                pos_x_jug = 0;
+                pos_y_jug = 1;
 
+                pos_x_jug2 = X-2;
+                pos_y_jug2 = Y-3;
+
+                ///laberinto[vertical][horizontal];
+                //muros 2, huecos 1
+                int laberinto3[Y][X] = {
+                        {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,'\0'},
+                        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,'\0'},
+                        {2,2,2,1,2,2,2,2,2,2,1,2,2,1,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,2,2,1,2,2,2,2,2,1,2,2,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,'\0'},
+                        {2,1,2,1,1,2,2,2,2,2,1,2,2,1,1,1,1,2,2,2,2,2,2,2,1,2,2,2,1,2,2,1,2,1,1,1,2,1,2,2,2,2,1,1,2,1,1,1,1,1,1,1,1,1,2,2,2,'\0'},
+                        {2,1,1,1,2,2,2,1,1,1,1,2,2,2,2,2,1,2,2,2,2,2,2,2,1,2,2,2,1,1,1,1,2,2,2,1,2,1,2,2,2,2,2,1,1,1,2,2,2,2,2,2,2,1,2,2,2,'\0'},
+                        {2,2,2,1,2,2,2,2,2,2,2,2,2,1,1,1,1,2,2,1,1,1,2,2,1,2,2,2,2,2,2,2,2,2,2,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,'\0'},
+                        {2,2,2,1,2,2,2,2,2,2,2,2,2,1,2,2,1,2,2,1,2,1,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,'\0'},
+                        {2,2,1,1,1,1,1,1,1,2,2,1,1,1,2,2,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,2,2,2,2,2,2,2,1,2,2,2,'\0'},
+                        {2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,1,1,1,1,1,2,2,1,1,1,1,2,2,2,2,1,2,2,2,'\0'},
+                        {2,2,1,2,2,1,2,2,1,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,2,2,2,1,2,2,2,2,2,2,2,2,2,1,2,2,2,2,1,2,2,2,'\0'},
+                        {2,1,1,2,2,1,2,2,1,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,1,2,2,1,1,2,2,2,2,2,2,2,2,2,1,1,1,2,2,1,2,2,2,'\0'},
+                        {2,2,1,2,2,1,2,2,1,2,2,2,2,2,2,1,2,2,2,1,1,2,2,2,2,1,1,1,1,1,2,2,1,2,1,2,2,1,2,2,2,1,1,1,1,1,1,2,2,2,1,2,2,1,2,2,2,'\0'},
+                        {2,2,1,1,1,1,2,2,1,2,2,2,2,2,1,1,1,2,2,2,1,2,2,1,1,1,2,2,2,1,2,2,1,2,1,2,2,1,2,2,2,1,2,2,2,2,1,2,2,2,1,2,2,1,2,2,2,'\0'},
+                        {2,2,2,2,2,2,2,2,1,1,1,1,2,2,2,2,1,1,1,2,1,2,2,1,2,2,2,2,2,1,2,2,1,2,1,2,2,1,2,2,2,1,2,2,2,2,1,2,2,2,1,2,2,1,2,2,2,'\0'},
+                        {2,1,1,1,2,2,2,2,1,2,2,1,1,1,2,2,2,2,1,1,1,2,2,1,2,2,2,1,1,1,2,2,1,2,1,1,1,1,2,2,2,1,2,2,1,1,1,2,2,2,1,2,2,1,2,2,2,'\0'},
+                        {2,1,2,1,1,1,1,1,1,2,2,1,2,1,1,2,2,2,2,2,1,2,2,1,1,2,2,2,2,2,2,2,1,2,1,2,2,2,2,2,2,1,2,2,2,2,1,1,2,2,1,2,2,1,2,2,2,'\0'},
+                        {2,1,2,1,2,2,2,2,1,2,2,1,2,2,1,1,2,2,2,2,1,2,2,2,1,1,1,1,1,1,1,1,1,2,1,2,2,2,2,2,2,1,2,2,2,2,2,1,2,2,1,1,1,1,2,2,2,'\0'},
+                        {2,2,2,1,1,1,2,2,1,2,2,1,2,2,2,1,2,2,2,2,1,1,1,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,1,1,1,1,2,2,1,2,2,2,2,2,1,2,2,2,'\0'},
+                        {2,1,2,2,2,2,2,2,1,2,1,1,2,2,2,1,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,1,2,2,1,1,1,2,2,2,1,2,2,2,'\0'},
+                        {2,1,2,2,1,1,1,1,1,2,2,1,1,1,2,1,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,1,2,2,2,'\0'},
+                        {2,1,1,2,2,1,2,2,1,2,2,2,2,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,1,2,2,2,'\0'},
+                        {2,2,1,2,2,1,2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,1,2,2,2,'\0'},
+                        {2,2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,1,2,2,2,'\0'},
+                        {2,2,2,1,2,2,2,2,1,2,2,1,2,2,2,2,2,2,2,2,2,2,1,2,2,2,1,1,1,1,2,2,2,2,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,1,2,2,2,1,2,2,2,'\0'},
+                        {2,2,2,1,1,2,2,2,1,2,2,1,1,1,2,2,2,2,2,2,2,2,1,2,2,2,1,2,2,1,2,2,2,2,1,2,2,2,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,'\0'},
+                        {2,2,2,2,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,2,2,1,1,1,1,1,1,2,2,2,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,'\0'},
+                        {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,'\0'},
+                    };
+
+
+                for(i=0; i<Y; i++){
+                    for(j=0; j<X; j++){
+                        if(laberinto3[i][j]==1)
+                        {
+                            laberinto3[i][j]=' ';
+                        }
+
+                        if(laberinto3[i][j]==2)
+                        {
+                            laberinto3[i][j]='*';
+                        }
+
+                    printf("%c ",laberinto3[i][j]);
+
+
+                    }
+                    printf("\n");
                 }
-                 fclose(exp);
+
+                jugador1(laberinto3, pos_x_jug, pos_y_jug); //para poner el jugador en su posicion inicial
+                jugador2(laberinto3, pos_x_jug2, pos_y_jug2);
+                juego_multi(laberinto3, pos_x_jug, pos_y_jug, pos_x_jug2, pos_y_jug2); //para el juego multijugador
+
                 break;
             }
 
@@ -156,8 +218,8 @@ int main()
                 printf("\n");
             }
 
-                jugador1(laberinto1,Y,X, pos_x_jug, pos_y_jug); //para poner el jugador en su posicion inicial
-                juego(laberinto1,Y,X, pos_x_jug, pos_y_jug);
+                jugador1(laberinto1, pos_x_jug, pos_y_jug); //para poner el jugador en su posicion inicial
+                juego(laberinto1, pos_x_jug, pos_y_jug);
                  //para el juego del laberinto
                  int laberinto2[Y][X] = {
                         {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,'\0'},
@@ -207,8 +269,8 @@ int main()
                 printf("\n");
             }
 
-                jugador1(laberinto2,Y,X, pos_x_jug, pos_y_jug); //para poner el jugador en su posicion inicial
-                juegosinvision(laberinto2,Y,X, pos_x_jug, pos_y_jug,j1);//para el juego del laberinto
+                jugador1(laberinto2, pos_x_jug, pos_y_jug); //para poner el jugador en su posicion inicial
+                juegosinvision(laberinto2, pos_x_jug, pos_y_jug,j1);//para el juego del laberinto
 
 
                 break;
@@ -230,12 +292,12 @@ int main()
 
 
 //funcion para el jugador
-void jugador1(int lab[][58],int f,int c,int pos_x_jug, int pos_y_jug){
+void jugador1(int lab[][X], int pos_x_jug, int pos_y_jug){
     lab[pos_y_jug][pos_x_jug] = 'o'; //le doy la posicion inicial de entrada al laberinto, y le asigno una 'o'
 }
 
 //funcion para el bucle del juego
-void juego(int lab[][58],int f,int c, int pos_x_jug, int pos_y_jug){
+void juego(int lab[][X], int pos_x_jug, int pos_y_jug){
     int salida = 0; //para que cuando encuentre la salida se incremente y termmine el juego
 
     do{ //este bucle se va a ejecutar durante todo el juego, y es do while porque queremos que se inicie al menos una vez y luego continue
@@ -243,12 +305,12 @@ void juego(int lab[][58],int f,int c, int pos_x_jug, int pos_y_jug){
 
         imprime_laberinto(lab,Y,X); //para dibujar, imprimir, el laberinto en pantalla
 
-        entrada(lab,Y,X, &pos_x_jug, &pos_y_jug, &salida);
+        entrada(lab, &pos_x_jug, &pos_y_jug, &salida);
         //para verificar y modificar las posiciones
         //necesitaremos que lo que se modifique dentro de la funcion, se modifique tambien fuera
         //para modificar variables dentro y fuera de la funcion, haremos paso por referencia con punteros
 
-        actualiza(lab,Y,X, pos_x_jug, pos_y_jug);
+        actualiza(lab, pos_x_jug, pos_y_jug);
         //para ir actualizando el laberinto cada vez que se modifica la posicion del jugador
         //hasta que encuentre la salida
 
@@ -257,10 +319,11 @@ void juego(int lab[][58],int f,int c, int pos_x_jug, int pos_y_jug){
 }
 
 //funcion para imprimir el laberinto
-void imprime_laberinto(int lab[][58],int f,int c){
+void imprime_laberinto(int lab[][X],int f,int c){
     system("cls"); //para que borre el mapa anterior de la pantalla e imprima el actualizado
 
     int i,j;
+
     printf("\nEstupendo, empecemos con el laberinto mas facil para entrar en calor. Tu objetivo...llegar a la meta lo antes posible\n\n");
 
     for(i=0; i<f; i++){
@@ -275,7 +338,7 @@ void imprime_laberinto(int lab[][58],int f,int c){
 }
 
 //funcion que comrpueba la entrada del usuario por teclado, para cambiar la posición del jugador
-void entrada(int lab[][58],int f,int c, int *pos_x_jug, int *pos_y_jug, int *salida){
+void entrada(int lab[][X], int *pos_x_jug, int *pos_y_jug, int *salida){
     char tecla; //para almacenar la orden de movimiento del usuario
 
     //tendremos que comprobar si ha encontrado la salida
@@ -359,12 +422,12 @@ void entrada(int lab[][58],int f,int c, int *pos_x_jug, int *pos_y_jug, int *sal
 
 
 //fucnion para actualizar el laberinto
-void actualiza(int lab[][58],int f,int c, int pos_x_jug, int pos_y_jug){
-    jugador1(lab,X,Y, pos_x_jug, pos_y_jug); //hace llamada a la funcion jugador, para actualizar su posicion, es decir, la nueva posicion de 'o'
+void actualiza(int lab[][X], int pos_x_jug, int pos_y_jug){
+    jugador1(lab, pos_x_jug, pos_y_jug); //hace llamada a la funcion jugador, para actualizar su posicion, es decir, la nueva posicion de 'o'
 }
 
 
-void juegosinvision(int lab[][58],int f,int c, int pos_x_jug, int pos_y_jug,jugador j1)
+void juegosinvision(int lab[][X], int pos_x_jug, int pos_y_jug,jugador j1)
 {
     int salida = 0;//para que cuando encuentre la salida se incremente y termmine el juego
 
@@ -374,22 +437,18 @@ void juegosinvision(int lab[][58],int f,int c, int pos_x_jug, int pos_y_jug,juga
         imprime_laberintosinvision(lab,Y,X,j1,pos_x_jug,pos_y_jug);
          //para dibujar, imprimir, el laberinto en pantalla
 
-        entrada(lab,Y,X, &pos_x_jug, &pos_y_jug, &salida);
+        entrada(lab, &pos_x_jug, &pos_y_jug, &salida);
 
         //para verificar y modificar las posiciones
         //necesitaremos que lo que se modifique dentro de la funcion, se modifique tambien fuera
         //para modificar variables dentro y fuera de la funcion, haremos paso por referencia con punteros
 
-        actualiza(lab,Y,X, pos_x_jug, pos_y_jug);
-
-
-
+        actualiza(lab, pos_x_jug, pos_y_jug);
         //para ir actualizando el laberinto cada vez que se modifica la posicion del jugador
         //hasta que encuentre la salida
 
     }while(salida == 0);
 }
-
 
 
 void imprime_laberintosinvision(int lab[][58],int f,int c,jugador j1,int pos_x_jug,int pos_y_jug)
@@ -405,8 +464,203 @@ void imprime_laberintosinvision(int lab[][58],int f,int c,jugador j1,int pos_x_j
         printf("\n");
     }
 
-
     printf("\n");
+}
+
+
+void jugador2(int laberinto1[Y][X],int pos_x_jug2, int pos_y_jug2){
+    laberinto1[pos_y_jug2][pos_x_jug2] = 'M'; //le doy la posicion final de salida del laberinto, y le asigno una 'M'
+}
+
+
+void juego_multi(int laberinto1[Y][X], int pos_x_jug, int pos_y_jug, int pos_x_jug2, int pos_y_jug2){
+    int salida = 0; //para que cuando encuentre la salida se incremente y termmine el juego
+    int pillado = 0; //para que cuando le pille se incremente y termine el juego
+
+    do{ //este bucle se va a ejecutar durante todo el juego, y es do while porque queremos que se inicie al menos una vez y luego continue
+
+        imprime_laberinto(laberinto1, Y, X); //para dibujar, imprimir, el laberinto en pantalla
+
+        entrada_multi(laberinto1, &pos_x_jug, &pos_y_jug, &salida, &pos_x_jug2, &pos_y_jug2, &pillado);
+        //para verificar y modificar las posiciones
+
+        actualiza_multi(laberinto1, pos_x_jug, pos_y_jug, pos_x_jug2, pos_y_jug2);
+        //para ir actualizando el laberinto cada vez que se modifica la posicion de los jugadores
+
+    }while(salida == 0 && pillado == 0); //se ejecuta el bucle mientras la salida valga 0 y pillado tambien
+}
+
+
+void entrada_multi(int laberinto1[Y][X], int *pos_x_jug, int *pos_y_jug, int *salida, int *pos_x_jug2, int *pos_y_jug2, int *pillado){
+    char tecla1; //para almacenar la orden de movimiento del usuario1
+    char tecla2; //para almacenar la orden de movimiento del usuario2
+
+    //para mover al jugador:
+    if(laberinto1[*pos_y_jug][*pos_x_jug] != '*'  && laberinto1[*pos_y_jug2][*pos_x_jug2] != '*'){
+
+        if(laberinto1[*pos_y_jug + 1][*pos_x_jug + 1] == '\0'){ //compruebo que no ha encontrado la salida
+            *salida = 1;
+        }
+
+
+        //condiciones para pillar??
+        else if(laberinto1[*pos_y_jug2][*pos_x_jug2] ==  laberinto1[*pos_y_jug][*pos_x_jug]){ //si lo atraviesa no pilla
+                *pillado = 1;
+            }
+
+
+        else{ //si no ha encontrado la salida, pide orden de movimiento al jugador
+
+            do{ //utilizo un do-while para asegurar que lo que ha introducido el usuario es correcto
+
+                tecla1 = getch();
+
+            }while(tecla1 != 'd' && tecla1 != 'a' && tecla1 != 'w' && tecla1 != 's');
+
+            if(tecla1 == 'd'){ //movimiento a la derecha, para ello, sumo 1 a las columnas (pos_x_jug)
+
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == 'o'){//para que no ponga el recorrido del jugador, solo la posicion actual
+                    laberinto1[*pos_y_jug][*pos_x_jug] = ' ';
+                }
+
+                *pos_x_jug = *pos_x_jug + 1;
+
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == '*'){//si tiene muro esa posicion, lo devuelvo a la posicion original
+                    *pos_x_jug = *pos_x_jug - 1; //lo muevo a la izquierda porque lo habia movido a la derecha
+                }
+
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == 'M'){ //si en al moverse esta en la posicion del monstruo, pillado!!
+                    *pillado = 1;
+                }
+
+            }
+
+            if(tecla1 == 'a'){ //movimiento a la izquierda, para ello resto 1 a las columnas (pos_x_jug)
+
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == 'o'){//para que no ponga el recorrido del jugador, solo la posicion actual
+                    laberinto1[*pos_y_jug][*pos_x_jug] = ' ';
+                }
+
+                *pos_x_jug = *pos_x_jug - 1;
+
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == '*'){
+                    *pos_x_jug = *pos_x_jug + 1;
+                }
+
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == 'M'){ //si en al moverse esta en la posicion del monstruo, pillado!!
+                    *pillado = 1;
+                }
+
+            }
+
+            if(tecla1 == 'w'){ //movimiento hacia arriba, para ello resto 1 a las filas (pos_y_jug)
+
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == 'o'){//para que no ponga el recorrido del jugador, solo la posicion actual
+                    laberinto1[*pos_y_jug][*pos_x_jug] = ' '; //cambia la posicion anterior del jugador si es un o por un espacio
+                }
+
+                *pos_y_jug = *pos_y_jug - 1;
+
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == '*'){ //si tiene muro esa posicion, lo devuelvo a la posicion original
+                    *pos_y_jug = *pos_y_jug + 1; //lo muevo hacia abajo porque lo habia movido hacia arriba
+                }
+
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == 'M'){ //si en al moverse esta en la posicion del monstruo, pillado!!
+                    *pillado = 1;
+                }
+
+            }
+
+            if(tecla1 == 's'){ //movimiento hacia abajo, para ello sumo 1 a las filas (pos_y_jug)
+
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == 'o'){//para que no ponga el recorrido del jugador, solo la posicion actual
+                    laberinto1[*pos_y_jug][*pos_x_jug] = ' ';
+                }
+
+                *pos_y_jug = *pos_y_jug + 1;
+
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == '*'){ //si tiene muro esa posicion, lo devuelvo a la posicion original
+                    *pos_y_jug = *pos_y_jug - 1; //lo muevo hacia arriba porque lo habia movido hacia abajo
+                }
+
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == 'M'){ //si en al moverse esta en la posicion del monstruo, pillado!!
+                    *pillado = 1;
+                }
+
+            }
+        }
+
+
+            do{
+
+                tecla2 = getch();
+
+            }while(tecla2 != 'j' && tecla2 != 'k' && tecla2 != 'l' && tecla2 != 'i');
+
+
+             if(tecla2 == 'l'){ //movimiento a la derecha, para ello, sumo 1 a las columnas (pos_x_jug)
+
+                if(laberinto1[*pos_y_jug2][*pos_x_jug2] == 'M'){//para que no ponga el recorrido del jugador, solo la posicion actual
+                    laberinto1[*pos_y_jug2][*pos_x_jug2] = ' ';
+                }
+
+                *pos_x_jug2 = *pos_x_jug2 + 1;
+
+                if(laberinto1[*pos_y_jug2][*pos_x_jug2] == '*'){//si tiene muro esa posicion, lo devuelvo a la posicion original
+                    *pos_x_jug2 = *pos_x_jug2 - 1; //lo muevo a la izquierda porque lo habia movido a la derecha
+                }
+
+            }
+
+            if(tecla2 == 'j'){ //movimiento a la izquierda, para ello resto 1 a las columnas (pos_x_jug)
+
+                if(laberinto1[*pos_y_jug2][*pos_x_jug2] == 'M'){//para que no ponga el recorrido del jugador, solo la posicion actual
+                    laberinto1[*pos_y_jug2][*pos_x_jug2] = ' ';
+                }
+
+                *pos_x_jug2 = *pos_x_jug2 - 1;
+
+                if(laberinto1[*pos_y_jug2][*pos_x_jug2] == '*'){
+                    *pos_x_jug2 = *pos_x_jug2 + 1;
+                }
+
+            }
+
+            if(tecla2 == 'i'){ //movimiento hacia arriba, para ello resto 1 a las filas (pos_y_jug)
+
+                if(laberinto1[*pos_y_jug2][*pos_x_jug2] == 'M'){//para que no ponga el recorrido del jugador, solo la posicion actual
+                    laberinto1[*pos_y_jug2][*pos_x_jug2] = ' '; //cambia la posicion anterior del jugador si es un o por un espacio
+                }
+
+                *pos_y_jug2 = *pos_y_jug2 - 1;
+
+                if(laberinto1[*pos_y_jug2][*pos_x_jug2] == '*'){ //si tiene muro esa posicion, lo devuelvo a la posicion original
+                    *pos_y_jug2 = *pos_y_jug2 + 1; //lo muevo hacia abajo porque lo habia movido hacia arriba
+                }
+
+            }
+
+            if(tecla2 == 'k'){ //movimiento hacia abajo, para ello sumo 1 a las filas (pos_y_jug)
+
+                if(laberinto1[*pos_y_jug2][*pos_x_jug2] == 'M'){//para que no ponga el recorrido del jugador, solo la posicion actual
+                    laberinto1[*pos_y_jug2][*pos_x_jug2] = ' ';
+                }
+
+                *pos_y_jug2 = *pos_y_jug2 + 1;
+
+                if(laberinto1[*pos_y_jug2][*pos_x_jug2] == '*'){ //si tiene muro esa posicion, lo devuelvo a la posicion original
+                    *pos_y_jug2 = *pos_y_jug2 - 1; //lo muevo hacia arriba porque lo habia movido hacia abajo
+                }
+
+            }
+        }
+
+}
+
+
+void actualiza_multi(int laberinto1[Y][X], int pos_x_jug, int pos_y_jug, int pos_x_jug2, int pos_y_jug2){
+    jugador1(laberinto1, pos_x_jug, pos_y_jug); //hace llamada a la funcion jugador, para actualizar su posicion, es decir, la nueva posicion de 'o'
+    jugador2(laberinto1, pos_x_jug2, pos_y_jug2);
 }
 
 
