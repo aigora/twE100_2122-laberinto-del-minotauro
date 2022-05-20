@@ -60,7 +60,7 @@ int main()
                 FILE *reg;
                 char reglas[500];
                 int i=0;
-                reg = fopen("Reglas.txt","r");
+                reg = fopen("Explicacion.txt","r");
 
                 while(fscanf(reg,"%c",&reglas[i])!=EOF)
                 {
