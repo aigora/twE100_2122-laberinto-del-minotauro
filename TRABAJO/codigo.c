@@ -283,6 +283,11 @@ int main()
 
                 break;
             }
+            case 5:
+                {
+                    printf("FIN DEL JUEGO. Gracias por participar\n");
+                    break;
+                }
 
             default:
             {
