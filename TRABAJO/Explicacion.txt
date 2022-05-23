@@ -1,6 +1,16 @@
 
 DINAMICA DEL JUEGO:
-Se te propondran varios laberintos para demostrar tu destreza. Estos laberintos;
-siendo cada vez mas complicados,tienen una unica salida que tendras que ir buscando moviendote a traves de el.
-Para moverte por los laberintos tienes que usar las teclas w (para ir hacia arriba), d (para ir hacia la 
-derecha), a (para ir hacia la izquierda), y s (para ir hacia abajo).
+-Modo un jugador:
+Se te propondran varios laberintos para demostrar tu destreza. 
+Estos laberintos seran cada vez mas complicados, y tienen una unica salida, la cual tendras que encontrar moviendote 
+a traves de los caminos del laberinto.
+Para moverte por los laberintos tienes que usar las teclas w (para ir hacia arriba), d (para ir hacia la derecha), 
+a (para ir hacia la izquierda), y s (para ir hacia abajo).
+El simbolo que marca la posicion del jugador y que podras ver por pantall en el laberinto, es la letra o.
+
+-Modo multijugador:
+Este modo de juego consistira en un pilla pilla, en el que un jugador empezara la partida a la entrada del laberinto,
+este tratara de huir y encontrar la salida para ganar y su simbolo sera la letra o al igual que en el modo de 
+un jugador.
+Mientras que el segundo jugador, comenzara la partida en la salida del laberinto, y su mision sera atrapar o pillar 
+al primer jugador, siendo su simbolo la letra M, ya que hara de minotauro.
