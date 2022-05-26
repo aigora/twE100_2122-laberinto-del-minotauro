@@ -25,10 +25,8 @@ void imprime_laberinto(int lab[][X],int f,int c);
 void imprime_laberintosinvision(int lab[][X],int f,int c,jugador j[],int pos_y_jug, int pos_x_jug);
 
 void entrada(int lab[][X], int *pos_x_jug, int *pos_y_jug, int *salida);
-void actualiza(int lab[][X], int pos_x_jug, int pos_y_jug);
 
 void entrada_multi(int laberinto1[Y][X], int *pos_x_jug, int *pos_y_jug, int *salida, int *pos_x_jug2, int *pos_y_jug2, int *pillado);
-void actualiza_multi(int laberinto1[Y][X], int pos_x_jug, int pos_y_jug, int pos_x_jug2, int pos_y_jug2);
 
 
 int main()
@@ -323,7 +321,7 @@ void juego(int lab[][X], int pos_x_jug, int pos_y_jug){
         //necesitaremos que lo que se modifique dentro de la funcion, se modifique tambien fuera
         //para modificar variables dentro y fuera de la funcion, haremos paso por referencia con punteros
 
-        actualiza(lab, pos_x_jug, pos_y_jug);
+        jugador1(lab, pos_x_jug, pos_y_jug);
         //para ir actualizando el laberinto cada vez que se modifica la posicion del jugador
         //hasta que encuentre la salida
 
@@ -434,11 +432,6 @@ void entrada(int lab[][X], int *pos_x_jug, int *pos_y_jug, int *salida){
 }
 
 
-//fucnion para actualizar el laberinto
-void actualiza(int lab[][X], int pos_x_jug, int pos_y_jug){
-    jugador1(lab, pos_x_jug, pos_y_jug); //hace llamada a la funcion jugador, para actualizar su posicion, es decir, la nueva posicion de 'o'
-}
-
 
 void juegosinvision(int lab[][X], int pos_x_jug, int pos_y_jug,jugador j[])
 {
@@ -456,7 +449,7 @@ void juegosinvision(int lab[][X], int pos_x_jug, int pos_y_jug,jugador j[])
         //necesitaremos que lo que se modifique dentro de la funcion, se modifique tambien fuera
         //para modificar variables dentro y fuera de la funcion, haremos paso por referencia con punteros
 
-        actualiza(lab, pos_x_jug, pos_y_jug);
+        jugador1(lab, pos_x_jug, pos_y_jug);
         //para ir actualizando el laberinto cada vez que se modifica la posicion del jugador
         //hasta que encuentre la salida
 
@@ -497,7 +490,8 @@ void juego_multi(int laberinto1[Y][X], int pos_x_jug, int pos_y_jug, int pos_x_j
         entrada_multi(laberinto1, &pos_x_jug, &pos_y_jug, &salida, &pos_x_jug2, &pos_y_jug2, &pillado);
         //para verificar y modificar las posiciones
 
-        actualiza_multi(laberinto1, pos_x_jug, pos_y_jug, pos_x_jug2, pos_y_jug2);
+        jugador1(laberinto1, pos_x_jug, pos_y_jug);
+        jugador2(laberinto1, pos_x_jug2, pos_y_jug2);
         //para ir actualizando el laberinto cada vez que se modifica la posicion de los jugadores
 
     }while(salida == 0 && pillado == 0); //se ejecuta el bucle mientras la salida valga 0 y pillado tambien
@@ -657,15 +651,9 @@ void entrada_multi(int laberinto1[Y][X], int *pos_x_jug, int *pos_y_jug, int *sa
                 }
 
             }
-    }
+        }
         }
 
-}
-
-
-void actualiza_multi(int laberinto1[Y][X], int pos_x_jug, int pos_y_jug, int pos_x_jug2, int pos_y_jug2){
-    jugador1(laberinto1, pos_x_jug, pos_y_jug); //hace llamada a la funcion jugador, para actualizar su posicion, es decir, la nueva posicion de 'o'
-    jugador2(laberinto1, pos_x_jug2, pos_y_jug2);
 }
 
 
