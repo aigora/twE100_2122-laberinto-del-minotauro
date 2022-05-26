@@ -335,8 +335,6 @@ void imprime_laberinto(int lab[][X],int f,int c){
 
     int i,j;
 
-    printf("\nEstupendo, empecemos con el laberinto mas facil para entrar en calor. Tu objetivo...llegar a la meta lo antes posible\n\n");
-
     for(i=0; i<f; i++){
         for(j=0; j<c; j++){
             printf("%c ",lab[i][j]);
