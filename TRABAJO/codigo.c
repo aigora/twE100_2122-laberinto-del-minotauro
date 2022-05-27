@@ -141,7 +141,8 @@ int main()
 
                 jugador1(laberinto3, pos_x_jug, pos_y_jug); //para poner el jugador en su posicion inicial
                 jugador2(laberinto3, pos_x_jug2, pos_y_jug2);
-                juego_multi(laberinto3, pos_x_jug, pos_y_jug, pos_x_jug2, pos_y_jug2); //para el juego multijugador
+                juego_multi(laberinto3, pos_x_jug, pos_y_jug, pos_x_jug2, pos_y_jug2);//para el juego multijugador
+                printf("Espero que hayais disfrutado de este modo. Os volvemos a dejar por aqui el menu por si quereis volver a jugar multijugador o por si os apetece jugar el modo individual\n");
 
                 break;
             }
@@ -277,6 +278,7 @@ int main()
 
                 jugador1(laberinto2, pos_x_jug, pos_y_jug); //para poner el jugador en su posicion inicial
                 juegosinvision(laberinto2, pos_x_jug, pos_y_jug,jugadores);//para el juego del laberinto
+                printf("Tu participacion en el modo individual ha finalizado %s. Si no lo has probado todavia, te recomendamos el modo multijugador; en el que puedes retar a tus familiares o amigos\n",jugadores[0].usuario);
 
 
                 break;
