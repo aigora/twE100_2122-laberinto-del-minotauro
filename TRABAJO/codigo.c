@@ -295,7 +295,7 @@ int main()
         }
 
     }
-    while(eleccion!=5);
+    while(eleccion!=5 && ((eleccion>='A' && eleccion<='Z') || (eleccion>='a' && eleccion<='z')));
 
 
     return 0;
