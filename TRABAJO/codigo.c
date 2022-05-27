@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<conio.h> //para la funcion getch, para recibir por teclado caracter sin necesitar intro
 #include<stdlib.h> //para la funcion system
+#include <string.h>
 
 #define X 58
 #define Y 27
@@ -35,10 +36,96 @@ int main()
     jugador jugadores[2];
     int i,j;
 
+    int aux;
+    char resp;
+    FILE *pf;
+
     printf("Para empezar, me gustaria conocerte jugador. Indica tu nombre y tu edad\n");
-    scanf("%s %i",jugadores[0].nombre,&jugadores[0].edad);
-    printf("Encantado de conocerte %s, elige ahora tu nombre de usuario para poder iniciar el juego\n",jugadores[0].nombre);
-    scanf(" %[^\n]s",jugadores[0].usuario);
+
+    do{
+        printf("Si ya lo has introducido y guardado anteriormente, pulsa 1 para ver la lista de usuarios.");
+        printf("Si no has introducido ninguno y no quieres dar tus datos, pulsando 1 tambien podras elegir un usuario generico\n");
+        printf("En cambio, si quieres introducir tu propio usuario; el cual podras guardar para futuros usos pulsa 2\n");
+        scanf("%d",&aux);
+    }while(aux != 1 && aux != 2);
+
+    if(aux == 2){
+        printf("Introduce nombre y edad\n");
+        scanf(" %s %i",jugadores[0].nombre,&jugadores[0].edad);
+        printf("Encantado de conocerte %s, elige ahora tu nombre de usuario para poder iniciar el juego\n",jugadores[0].nombre);
+        scanf(" %[^\n]s",jugadores[0].usuario);
+
+        printf("nombre: %s\nedad: %d\n usuario: %s\n",jugadores[0].nombre,jugadores[0].edad,jugadores[0].usuario);
+
+        printf("Quieres guardar el usuario? s/n (s para si y n para no)\n");
+
+        do{
+            scanf(" %c",&resp);
+        }while(resp != 's' && resp != 'n');
+
+        if(resp == 's'){
+            pf = fopen("Usuarios.txt", "a"); //si quiere  guardarlo, lo añadimos al fichero
+
+            fprintf(pf,"\n%s,%d,%s",jugadores[0].nombre, jugadores[0].edad, jugadores[0].usuario);
+
+            fclose(pf); //cerramos el fichero al final
+        }
+    }
+
+    if(aux == 1){ //acoplar esto
+        jugador j1[20]; //para 20 usuarios
+        int i,j;
+        int num_usuario;
+
+        pf = fopen("Usuarios.txt", "r"); //si ya lo ha guardado antes lo lee del fichero
+
+        ///leer solo una vez ficheros, si intentas leerlos 2 veces falla y no da error de compilacion ni warnings
+
+        i=0;
+
+        while(fscanf(pf,"%[^,],%d,%[^\n]",j1[i].nombre, &j1[i].edad, j1[i].usuario) != EOF){ // ahora si, cuidado con espacios
+                                                                                             //y con saltos de linea
+            if(i == 0){
+                printf("Nombre %d: %s\t",i+1,j1[i].nombre);
+                printf("Edad %d: %d\t",i+1,j1[i].edad);
+                printf("Usuario %d: %s\n",i+1,j1[i].usuario);
+            }
+
+            else{
+                for(j=0; j1[i].nombre[j] != '\0'; j++){
+                    j1[i].nombre[j] = j1[i].nombre[j+1];
+                }
+
+                if(j1[i].nombre[0] != '\n'){
+                    printf("Nombre %d: %s\t",i+1,j1[i].nombre);
+                    printf("Edad %d: %d \t",i+1,j1[i].edad);
+                    printf("Usuario %d: %s\n",i+1,j1[i].usuario);
+                }
+
+            }
+
+            i++;
+        }
+
+
+
+        do{
+            printf("Introduce numero para elegir el usuario, por ejemplo para el primer usuario de la lista introduce 1, 2 para el segundo,...\n");
+            scanf("%d",&num_usuario);
+        }while(num_usuario < 1 || num_usuario > 20);
+
+        i = num_usuario - 1;
+
+        printf("El usuario escogido es: %s, %d, %s\n", j1[i].nombre, j1[i].edad, j1[i].usuario);
+
+        strcpy(jugadores[0].nombre, j1[i].nombre);
+        jugadores[0].edad = j1[i].edad;
+        strcpy(jugadores[0].usuario, j1[i].usuario);
+
+        fclose(pf); //cerramos el fichero al finnal
+    }
+
+
     printf("Bienvenido %s... A JUGAR\n",jugadores[0].usuario);
 
     do
