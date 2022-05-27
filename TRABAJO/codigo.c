@@ -78,19 +78,17 @@ int main()
         }
     }
 
-    if(aux == 1){ //acoplar esto
+    if(aux == 1){
         jugador j1[20]; //para 20 usuarios
         int i,j;
         int num_usuario;
 
-        pf = fopen("Usuarios.txt", "r"); //si ya lo ha guardado antes lo lee del fichero
-
-        ///leer solo una vez ficheros, si intentas leerlos 2 veces falla y no da error de compilacion ni warnings
+        pf = fopen("Usuarios.txt", "r"); //lee del fichero los usuarios genericos y los guardados
 
         i=0;
 
-        while(fscanf(pf,"%[^,],%d,%[^\n]",j1[i].nombre, &j1[i].edad, j1[i].usuario) != EOF){ // ahora si, cuidado con espacios
-                                                                                             //y con saltos de linea
+        while(fscanf(pf,"%[^,],%d,%[^\n]",j1[i].nombre, &j1[i].edad, j1[i].usuario) != EOF){ //imprime por pantalla usuarios del fichero
+
             if(i == 0){
                 printf("Nombre %d: %s\t",i+1,j1[i].nombre);
                 printf("Edad %d: %d\t",i+1,j1[i].edad);
@@ -120,24 +118,24 @@ int main()
         int k;
         for(k=0;k<10;k++){
                 scanf("%d",&num_usuario);
-        if(num_usuario<0||num_usuario>linea)
-        {
-            printf("Has elegido una opcion no valida, introduce un numero que se corresponda con un usuario\n");
+            if(num_usuario<0||num_usuario>linea)
+            {
+                printf("Has elegido una opcion no valida, introduce un numero que se corresponda con un usuario\n");
 
-        }
-        else
-        {
-          i = num_usuario - 1;
+            }
+            else
+            {
+              i = num_usuario - 1;
 
-        printf("El usuario escogido es: %s, %d, %s\n", j1[i].nombre, j1[i].edad, j1[i].usuario);
+                printf("El usuario escogido es: %s, %d, %s\n", j1[i].nombre, j1[i].edad, j1[i].usuario);
 
-        strcpy(jugadores[0].nombre, j1[i].nombre);
-        jugadores[0].edad = j1[i].edad;
-        strcpy(jugadores[0].usuario, j1[i].usuario);
+                strcpy(jugadores[0].nombre, j1[i].nombre);
+                jugadores[0].edad = j1[i].edad;
+                strcpy(jugadores[0].usuario, j1[i].usuario);
 
-        fclose(pf);
-        break; //cerramos el fichero al finnal
-        }
+                fclose(pf); //cerramos el fichero
+                break;//para salir del bucle for
+            }
         }
 
 
@@ -154,7 +152,7 @@ int main()
         printf("2-->Modo Multijugador\n");
         printf("3-->Inicio del juego\n");
         printf("4-->Juegos relacionados\n");
-        printf("Presione la tecla 5 para salir del menu\n"); //comprobar que no salga opcion incorrecta
+        printf("Presione la tecla 5 para salir del menu\n");
         scanf("%i",&eleccion);
 
         switch(eleccion)
@@ -215,41 +213,38 @@ int main()
                     }
                 }
 
-                if(u == 1){ //acoplar esto
+                if(u == 1){
                     jugador j1[20]; //para 20 usuarios
                     int i,j;
                     int num_usuario;
-                //si ya lo ha guardado antes lo lee del fichero
 
-                ///leer solo una vez ficheros, si intentas leerlos 2 veces falla y no da error de compilacion ni warnings
+                    pf = fopen("Usuarios.txt", "r");
 
-                pf = fopen("Usuarios.txt", "r");
+                    i=0;
 
-                i=0;
+                    while(fscanf(pf,"%[^,],%d,%[^\n]",j1[i].nombre, &j1[i].edad, j1[i].usuario) != EOF){ //para imprimir usuarios del fichero
 
-                while(fscanf(pf,"%[^,],%d,%[^\n]",j1[i].nombre, &j1[i].edad, j1[i].usuario) != EOF){ // ahora si, cuidado con espacios
-                                                                                                     //y con saltos de linea
-                    if(i == 0){
-                        printf("Nombre %d: %s\t",i+1,j1[i].nombre);
-                        printf("Edad %d: %d\t",i+1,j1[i].edad);
-                        printf("Usuario %d: %s\n",i+1,j1[i].usuario);
-                    }
-
-                    else{
-                        for(j=0; j1[i].nombre[j] != '\0'; j++){
-                            j1[i].nombre[j] = j1[i].nombre[j+1];
-                        }
-
-                        if(j1[i].nombre[1] != '\n'){
+                        if(i == 0){
                             printf("Nombre %d: %s\t",i+1,j1[i].nombre);
-                            printf("Edad %d: %d \t",i+1,j1[i].edad);
+                            printf("Edad %d: %d\t",i+1,j1[i].edad);
                             printf("Usuario %d: %s\n",i+1,j1[i].usuario);
                         }
 
-                    }
+                        else{
+                            for(j=0; j1[i].nombre[j] != '\0'; j++){
+                                j1[i].nombre[j] = j1[i].nombre[j+1];
+                            }
 
-                    i++;
-                }
+                            if(j1[i].nombre[1] != '\n'){
+                                printf("Nombre %d: %s\t",i+1,j1[i].nombre);
+                                printf("Edad %d: %d \t",i+1,j1[i].edad);
+                                printf("Usuario %d: %s\n",i+1,j1[i].usuario);
+                            }
+
+                        }
+
+                        i++;
+                    }
 
                     printf("Introduce numero para elegir el usuario, por ejemplo para el primer usuario de la lista introduce 1, 2 para el segundo,...\n");
                     int k;
@@ -270,8 +265,8 @@ int main()
                     jugadores[1].edad = j1[i].edad;
                     strcpy(jugadores[1].usuario, j1[i].usuario);
 
-                    fclose(pf);
-                    break; //cerramos el fichero al finnal
+                    fclose(pf); //cerramos el fichero al final
+                    break;
                     }
                     }
 
@@ -429,8 +424,8 @@ int main()
             }
 
                 jugador1(laberinto1, pos_x_jug, pos_y_jug); //para poner el jugador en su posicion inicial
-                juego(laberinto1, pos_x_jug, pos_y_jug);
-                 //para el juego del laberinto
+                juego(laberinto1, pos_x_jug, pos_y_jug);//para el juego del laberinto
+
                  int laberinto2[Y][X] = {
                         {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,'\0'},
                         {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,'\0'},
@@ -500,7 +495,7 @@ int main()
         }
 
     }
-    while(eleccion!=5);// && ((eleccion>='A' && eleccion<='Z') || (eleccion>='a' && eleccion<='z')));
+    while(eleccion!=5);
 
 
     return 0;
@@ -517,12 +512,10 @@ void juego(int lab[][X], int pos_x_jug, int pos_y_jug){
     int salida = 0; //para que cuando encuentre la salida se incremente y termmine el juego
 
     do{ //este bucle se va a ejecutar durante todo el juego, y es do while porque queremos que se inicie al menos una vez y luego continue
-        //dentro del bucle vamos a hacer 3 funciones:
 
         imprime_laberinto(lab,Y,X); //para dibujar, imprimir, el laberinto en pantalla
 
-        entrada(lab, &pos_x_jug, &pos_y_jug, &salida);
-        //para verificar y modificar las posiciones
+        entrada(lab, &pos_x_jug, &pos_y_jug, &salida);//para verificar y modificar las posiciones
         //necesitaremos que lo que se modifique dentro de la funcion, se modifique tambien fuera
         //para modificar variables dentro y fuera de la funcion, haremos paso por referencia con punteros
 
@@ -536,7 +529,7 @@ void juego(int lab[][X], int pos_x_jug, int pos_y_jug){
 
 //funcion para imprimir el laberinto
 void imprime_laberinto(int lab[][X],int f,int c){
-    system("cls"); //para que borre el mapa anterior de la pantalla e imprima el actualizado
+    system("cls"); //para que borre el mapa anterior de la pantalla e imprima el mapa actualizado
 
     int i,j;
 
@@ -563,7 +556,7 @@ void entrada(int lab[][X], int *pos_x_jug, int *pos_y_jug, int *salida){
 
         if(lab[*pos_y_jug + 1][*pos_x_jug + 1] == '\0'){ //compruebo que no ha encontrado la salida
             //sumo 1 a la posicion de x y de y, para que al encontrar la salida termine, cuando este justo antes del caracter de finalizacion de cadena
-            //si quito el +1, en la pos_y y en la pos_x, no termina al encontrar la salida
+
             *salida = 1;
         }
 
@@ -581,7 +574,7 @@ void entrada(int lab[][X], int *pos_x_jug, int *pos_y_jug, int *salida){
                     lab[*pos_y_jug][*pos_x_jug] = ' ';
                 }
 
-                *pos_x_jug = *pos_x_jug + 1;
+                *pos_x_jug = *pos_x_jug + 1; //movimiento
 
                 if(lab[*pos_y_jug][*pos_x_jug] == '*'){//si tiene muro esa posicion, lo devuelvo a la posicion original
                     *pos_x_jug = *pos_x_jug - 1; //lo muevo a la izquierda porque lo habia movido a la derecha
@@ -595,7 +588,7 @@ void entrada(int lab[][X], int *pos_x_jug, int *pos_y_jug, int *salida){
                     lab[*pos_y_jug][*pos_x_jug] = ' ';
                 }
 
-                *pos_x_jug = *pos_x_jug - 1;
+                *pos_x_jug = *pos_x_jug - 1; //movimiento
 
                 if(lab[*pos_y_jug][*pos_x_jug] == '*'){
                     *pos_x_jug = *pos_x_jug + 1;
@@ -609,7 +602,7 @@ void entrada(int lab[][X], int *pos_x_jug, int *pos_y_jug, int *salida){
                     lab[*pos_y_jug][*pos_x_jug] = ' '; //cambia la posicion anterior del jugador si es un o por un espacio
                 }
 
-                *pos_y_jug = *pos_y_jug - 1;
+                *pos_y_jug = *pos_y_jug - 1; //movimiento
 
                 if(lab[*pos_y_jug][*pos_x_jug] == '*'){ //si tiene muro esa posicion, lo devuelvo a la posicion original
                     *pos_y_jug = *pos_y_jug + 1; //lo muevo hacia abajo porque lo habia movido hacia arriba
@@ -641,13 +634,11 @@ void juegosinvision(int lab[][X], int pos_x_jug, int pos_y_jug,jugador j[])
     int salida = 0;//para que cuando encuentre la salida se incremente y termmine el juego
 
     do{ //este bucle se va a ejecutar durante todo el juego, y es do while porque queremos que se inicie al menos una vez y luego continue
-        //dentro del bucle vamos a hacer 3 funciones:
 
         imprime_laberintosinvision(lab,Y,X,j,pos_x_jug,pos_y_jug);
          //para dibujar, imprimir, el laberinto en pantalla
 
         entrada(lab, &pos_x_jug, &pos_y_jug, &salida);
-
         //para verificar y modificar las posiciones
         //necesitaremos que lo que se modifique dentro de la funcion, se modifique tambien fuera
         //para modificar variables dentro y fuera de la funcion, haremos paso por referencia con punteros
@@ -683,7 +674,7 @@ void jugador2(int laberinto1[Y][X],int pos_x_jug2, int pos_y_jug2){
 
 
 void juego_multi(int laberinto1[Y][X], int pos_x_jug, int pos_y_jug, int pos_x_jug2, int pos_y_jug2){
-    int salida = 0; //para que cuando encuentre la salida se incremente y termmine el juego
+    int salida = 0; //para que cuando encuentre la salida se incremente y termine el juego
     int pillado = 0; //para que cuando le pille se incremente y termine el juego
 
     do{ //este bucle se va a ejecutar durante todo el juego, y es do while porque queremos que se inicie al menos una vez y luego continue
@@ -697,7 +688,7 @@ void juego_multi(int laberinto1[Y][X], int pos_x_jug, int pos_y_jug, int pos_x_j
         jugador2(laberinto1, pos_x_jug2, pos_y_jug2);
         //para ir actualizando el laberinto cada vez que se modifica la posicion de los jugadores
 
-    }while(salida == 0 && pillado == 0); //se ejecuta el bucle mientras la salida valga 0 y pillado tambien
+    }while(salida == 0 && pillado == 0); //se ejecuta el bucle mientras salida valga 0 y pillado tambien
 }
 
 
@@ -712,13 +703,12 @@ void entrada_multi(int laberinto1[Y][X], int *pos_x_jug, int *pos_y_jug, int *sa
         }
 
 
-        //condiciones para pillar??
-        else if(laberinto1[*pos_y_jug2][*pos_x_jug2] ==  laberinto1[*pos_y_jug][*pos_x_jug]){ //si lo atraviesa no pilla
+        else if(laberinto1[*pos_y_jug2][*pos_x_jug2] ==  laberinto1[*pos_y_jug][*pos_x_jug]){
                 *pillado = 1;
             }
 
 
-        else{ //si no ha encontrado la salida, pide orden de movimiento al jugador
+        else{ //si no ha encontrado la salida y el otro jugador no le ha pillado, pide ordenes de movimiento
 
             do{ //utilizo un do-while para asegurar que lo que ha introducido el usuario es correcto
 
@@ -732,7 +722,7 @@ void entrada_multi(int laberinto1[Y][X], int *pos_x_jug, int *pos_y_jug, int *sa
                     laberinto1[*pos_y_jug][*pos_x_jug] = ' ';
                 }
 
-                *pos_x_jug = *pos_x_jug + 1;
+                *pos_x_jug = *pos_x_jug + 1; //movimiento
 
                 if(laberinto1[*pos_y_jug][*pos_x_jug] == '*'){//si tiene muro esa posicion, lo devuelvo a la posicion original
                     *pos_x_jug = *pos_x_jug - 1; //lo muevo a la izquierda porque lo habia movido a la derecha
@@ -833,7 +823,7 @@ void entrada_multi(int laberinto1[Y][X], int *pos_x_jug, int *pos_y_jug, int *sa
                     laberinto1[*pos_y_jug2][*pos_x_jug2] = ' '; //cambia la posicion anterior del jugador si es un o por un espacio
                 }
 
-                *pos_y_jug2 = *pos_y_jug2 - 1;
+                *pos_y_jug2 = *pos_y_jug2 - 1; //movimiento
 
                 if(laberinto1[*pos_y_jug2][*pos_x_jug2] == '*'){ //si tiene muro esa posicion, lo devuelvo a la posicion original
                     *pos_y_jug2 = *pos_y_jug2 + 1; //lo muevo hacia abajo porque lo habia movido hacia arriba
