@@ -728,7 +728,7 @@ void entrada_multi(int laberinto1[Y][X], int *pos_x_jug, int *pos_y_jug, int *sa
                     *pos_x_jug = *pos_x_jug - 1; //lo muevo a la izquierda porque lo habia movido a la derecha
                 }
 
-                if(laberinto1[*pos_y_jug][*pos_x_jug] == 'M'){ //si en al moverse esta en la posicion del monstruo, pillado!!
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == 'M'){ //si en al moverse esta en la posicion del minotauro, pillado!!
                     *pillado = 1;
                 }
 
@@ -746,7 +746,7 @@ void entrada_multi(int laberinto1[Y][X], int *pos_x_jug, int *pos_y_jug, int *sa
                     *pos_x_jug = *pos_x_jug + 1;
                 }
 
-                if(laberinto1[*pos_y_jug][*pos_x_jug] == 'M'){ //si en al moverse esta en la posicion del monstruo, pillado!!
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == 'M'){ //si en al moverse esta en la posicion del minotauro, pillado!!
                     *pillado = 1;
                 }
 
@@ -782,7 +782,7 @@ void entrada_multi(int laberinto1[Y][X], int *pos_x_jug, int *pos_y_jug, int *sa
                     *pos_y_jug = *pos_y_jug - 1; //lo muevo hacia arriba porque lo habia movido hacia abajo
                 }
 
-                if(laberinto1[*pos_y_jug][*pos_x_jug] == 'M'){ //si en al moverse esta en la posicion del monstruo, pillado!!
+                if(laberinto1[*pos_y_jug][*pos_x_jug] == 'M'){ //si en al moverse esta en la posicion del minotauro, pillado!!
                     *pillado = 1;
                 }
 
