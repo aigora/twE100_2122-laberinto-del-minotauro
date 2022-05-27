@@ -185,97 +185,99 @@ int main()
                 int pos_x_jug, pos_y_jug, pos_x_jug2, pos_y_jug2;
                 printf("A %s ya le conocemos pero nos gustaria que te presentaras tu tambien jugador 2.\n",jugadores[0].usuario);
 
-        do{
-        printf("Si ya lo has introducido y guardado anteriormente, pulsa 1 para ver la lista de usuarios.");
-        printf("Si no has introducido ninguno y no quieres dar tus datos, pulsando 1 tambien podras elegir un usuario generico\n");
-        printf("En cambio, si quieres introducir tu propio usuario; el cual podras guardar para futuros usos pulsa 2\n");
-        scanf("%d",&u);
-        }while(u != 1 && u != 2);
+                do{
+                printf("Si ya lo has introducido y guardado anteriormente, pulsa 1 para ver la lista de usuarios.");
+                printf("Si no has introducido ninguno y no quieres dar tus datos, pulsando 1 tambien podras elegir un usuario generico\n");
+                printf("En cambio, si quieres introducir tu propio usuario; el cual podras guardar para futuros usos pulsa 2\n");
+                scanf("%d",&u);
+                }while(u != 1 && u != 2);
 
-    if(u == 2){
-        printf("Introduce nombre y edad\n");
-        scanf(" %s %i",jugadores[1].nombre,&jugadores[1].edad);
-        printf("Encantado de conocerte %s, elige ahora tu nombre de usuario para poder iniciar el juego\n",jugadores[1].nombre);
-        scanf(" %[^\n]s",jugadores[1].usuario);
+                if(u == 2){
+                    printf("Introduce nombre y edad\n");
+                    scanf(" %s %i",jugadores[1].nombre,&jugadores[1].edad);
+                    printf("Encantado de conocerte %s, elige ahora tu nombre de usuario para poder iniciar el juego\n",jugadores[1].nombre);
+                    scanf(" %[^\n]s",jugadores[1].usuario);
 
-        printf("nombre: %s\nedad: %d\nusuario: %s\n",jugadores[1].nombre,jugadores[1].edad,jugadores[1].usuario);
+                    printf("nombre: %s\nedad: %d\nusuario: %s\n",jugadores[1].nombre,jugadores[1].edad,jugadores[1].usuario);
 
-        printf("Quieres guardar el usuario? s/n (s para si y n para no)\n");
+                    printf("Quieres guardar el usuario? s/n (s para si y n para no)\n");
 
-        do{
-            scanf(" %c",&resp);
-        }while(resp != 's' && resp != 'n');
+                    do{
+                        scanf(" %c",&resp);
+                    }while(resp != 's' && resp != 'n');
 
-        if(resp == 's'){
-            pf = fopen("Usuarios.txt", "a"); //si quiere  guardarlo, lo añadimos al fichero
+                    if(resp == 's'){
+                        pf = fopen("Usuarios.txt", "a"); //si quiere  guardarlo, lo añadimos al fichero
 
-            fprintf(pf,"\n%s, %d, %s",jugadores[1].nombre, jugadores[1].edad, jugadores[1].usuario);
+                        fprintf(pf,"\n%s, %d, %s",jugadores[1].nombre, jugadores[1].edad, jugadores[1].usuario);
 
-            fclose(pf); //cerramos el fichero al final
-        }
-    }
-
-    if(u == 1){ //acoplar esto
-        jugador j1[20]; //para 20 usuarios
-        int i,j;
-        int num_usuario;
-//si ya lo ha guardado antes lo lee del fichero
-
-        ///leer solo una vez ficheros, si intentas leerlos 2 veces falla y no da error de compilacion ni warnings
-
-        i=0;
-
-        while(fscanf(pf,"%[^,],%d,%[^\n]",j1[i].nombre, &j1[i].edad, j1[i].usuario) != EOF){ // ahora si, cuidado con espacios
-                                                                                             //y con saltos de linea
-            if(i == 0){
-                printf("Nombre %d: %s\t",i+1,j1[i].nombre);
-                printf("Edad %d: %d\t",i+1,j1[i].edad);
-                printf("Usuario %d: %s\n",i+1,j1[i].usuario);
-            }
-
-            else{
-                for(j=0; j1[i].nombre[j] != '\0'; j++){
-                    j1[i].nombre[j] = j1[i].nombre[j+1];
+                        fclose(pf); //cerramos el fichero al final
+                    }
                 }
 
-                if(j1[i].nombre[1] != '\n'){
-                    printf("Nombre %d: %s\t",i+1,j1[i].nombre);
-                    printf("Edad %d: %d \t",i+1,j1[i].edad);
-                    printf("Usuario %d: %s\n",i+1,j1[i].usuario);
+                if(u == 1){ //acoplar esto
+                    jugador j1[20]; //para 20 usuarios
+                    int i,j;
+                    int num_usuario;
+                //si ya lo ha guardado antes lo lee del fichero
+
+                ///leer solo una vez ficheros, si intentas leerlos 2 veces falla y no da error de compilacion ni warnings
+
+                pf = fopen("Usuarios.txt", "r");
+
+                i=0;
+
+                while(fscanf(pf,"%[^,],%d,%[^\n]",j1[i].nombre, &j1[i].edad, j1[i].usuario) != EOF){ // ahora si, cuidado con espacios
+                                                                                                     //y con saltos de linea
+                    if(i == 0){
+                        printf("Nombre %d: %s\t",i+1,j1[i].nombre);
+                        printf("Edad %d: %d\t",i+1,j1[i].edad);
+                        printf("Usuario %d: %s\n",i+1,j1[i].usuario);
+                    }
+
+                    else{
+                        for(j=0; j1[i].nombre[j] != '\0'; j++){
+                            j1[i].nombre[j] = j1[i].nombre[j+1];
+                        }
+
+                        if(j1[i].nombre[1] != '\n'){
+                            printf("Nombre %d: %s\t",i+1,j1[i].nombre);
+                            printf("Edad %d: %d \t",i+1,j1[i].edad);
+                            printf("Usuario %d: %s\n",i+1,j1[i].usuario);
+                        }
+
+                    }
+
+                    i++;
                 }
 
-            }
+                    printf("Introduce numero para elegir el usuario, por ejemplo para el primer usuario de la lista introduce 1, 2 para el segundo,...\n");
+                    int k;
+                    for(k=0;k<10;k++){
+                            scanf("%d",&num_usuario);
+                    if(num_usuario<0||num_usuario>linea)
+                    {
+                        printf("Has elegido una opcion no valida, introduce un numero que se corresponda con un usuario\n");
 
-            i++;
-        }
+                    }
+                    else
+                    {
+                      i = num_usuario - 1;
 
-        printf("Introduce numero para elegir el usuario, por ejemplo para el primer usuario de la lista introduce 1, 2 para el segundo,...\n");
-        int k;
-        for(k=0;k<10;k++){
-                scanf("%d",&num_usuario);
-        if(num_usuario<0||num_usuario>linea)
-        {
-            printf("Has elegido una opcion no valida, introduce un numero que se corresponda con un usuario\n");
+                    printf("El usuario escogido es: %s, %d, %s\n", j1[i].nombre, j1[i].edad, j1[i].usuario);
 
-        }
-        else
-        {
-          i = num_usuario - 1;
+                    strcpy(jugadores[1].nombre, j1[i].nombre);
+                    jugadores[1].edad = j1[i].edad;
+                    strcpy(jugadores[1].usuario, j1[i].usuario);
 
-        printf("El usuario escogido es: %s, %d, %s\n", j1[i].nombre, j1[i].edad, j1[i].usuario);
-
-        strcpy(jugadores[1].nombre, j1[i].nombre);
-        jugadores[1].edad = j1[i].edad;
-        strcpy(jugadores[1].usuario, j1[i].usuario);
-
-        fclose(pf);
-        break; //cerramos el fichero al finnal
-        }
-        }
+                    fclose(pf);
+                    break; //cerramos el fichero al finnal
+                    }
+                    }
 
 
 
-    }
+                }
 
 
 
